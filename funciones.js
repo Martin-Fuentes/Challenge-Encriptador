@@ -4,37 +4,52 @@ function encriptar() {
   if (texto == "") {
     alert("Error no ingresó ningún texto, vuelva a intentarlo...");
   } else {
-    let texto_encriptado = "";
-    for (let i = 0; i < texto.length; i++) {
-      let caracter = texto.charAt(i);
-      switch (caracter) {
-        case "a":
-          texto_encriptado += "ai";
-          break;
-        case "e":
-          texto_encriptado += "enter";
-          break;
-        case "i":
-          texto_encriptado += "imes";
-          break;
-        case "o":
-          texto_encriptado += "ober";
-          break;
-
-        case "u":
-          texto_encriptado += "ufat";
-          break;
-
-        default:
-          texto_encriptado += caracter;
-          break;
+    let caracteresValidos = /^[A-Za-zs]+$/;
+    if (caracteresValidos.test(texto)) {
+      let hayMayusculas = /[A-Z]/.test(texto);
+      if (hayMayusculas) {
+        alert(
+          "Se encontraron mayúsculas en el texto, se convertirán en minúsculas"
+        );
+        texto = texto.toLowerCase();
       }
+      let texto_encriptado = "";
+      for (let i = 0; i < texto.length; i++) {
+        let caracter = texto.charAt(i);
+        switch (caracter) {
+          case "a":
+            texto_encriptado += "ai";
+            break;
+          case "e":
+            texto_encriptado += "enter";
+            break;
+          case "i":
+            texto_encriptado += "imes";
+            break;
+          case "o":
+            texto_encriptado += "ober";
+            break;
+
+          case "u":
+            texto_encriptado += "ufat";
+            break;
+
+          default:
+            texto_encriptado += caracter;
+            break;
+        }
+      }
+      eliminarDiv();
+      crearTextArea();
+      document.getElementById("txtTexto").value = "";
+      document.getElementById("encriptado").value = texto_encriptado;
+      console.log("El texto encriptado es: " + texto_encriptado);
+    } else {
+      alert(
+        "Se encontraron caracteres no válidos, recuerda utilizar solo letras minúsculas sin acentos"
+      );
+      document.getElementById("txtTexto").value = "";
     }
-    eliminarDiv();
-    crearTextArea();
-    document.getElementById("txtTexto").value = "";
-    document.getElementById("encriptado").value = texto_encriptado;
-    console.log("El texto encriptado es: " + texto_encriptado);
   }
 }
 function eliminarDiv() {
@@ -77,24 +92,38 @@ function copiarTexto() {
 function desencriptar() {
   let texto = document.getElementById("txtTexto").value;
   if (texto != "") {
-    
-    let txtdescifrado = "";
-    txtdescifrado = texto.replaceAll("ai", "a");
-    txtdescifrado = txtdescifrado.replaceAll("enter", "e");
-    txtdescifrado = txtdescifrado.replaceAll("imes", "i");
-    txtdescifrado = txtdescifrado.replaceAll("ober", "o");
-    txtdescifrado = txtdescifrado.replaceAll("ufat", "u");
+    let caracteresValidos = /^[A-Za-zs]+$/;
+    if (caracteresValidos.test(texto)) {
+      let hayMayusculas = /[A-Z]/.test(texto);
+      if (hayMayusculas) {
+        alert(
+          "Se encontraron mayúsculas en el texto, se convertirán en minúsculas"
+        );
+        texto = texto.toLowerCase();
+      }
+      let txtdescifrado = "";
+      txtdescifrado = texto.replaceAll("ai", "a");
+      txtdescifrado = txtdescifrado.replaceAll("enter", "e");
+      txtdescifrado = txtdescifrado.replaceAll("imes", "i");
+      txtdescifrado = txtdescifrado.replaceAll("ober", "o");
+      txtdescifrado = txtdescifrado.replaceAll("ufat", "u");
 
-    document.getElementById("txtTexto").value = "";
-    if (texto == txtdescifrado) {
-      alert("El texto ya está desencriptado");
+      document.getElementById("txtTexto").value = "";
+      if (texto == txtdescifrado) {
+        alert("El texto ya está desencriptado");
+      } else {
+        eliminarDiv();
+        crearTextArea();
+        let textarea = document.getElementById("encriptado");
+        textarea.value = txtdescifrado;
+      }
     } else {
-      eliminarDiv();
-      crearTextArea();
-      let textarea = document.getElementById("encriptado");
-      textarea.value = txtdescifrado;
+      alert(
+        "Se encontraron caracteres no válidos, recuerda utilizar solo letras minúsculas sin acentos"
+      );
+      document.getElementById("txtTexto").value = "";
     }
   } else {
-    alert("Ingrese el texto a desencriptar");
+    alert("Error no ingresó ningún texto, vuelva a intentarlo...");
   }
 }
